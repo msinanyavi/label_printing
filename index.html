@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etiket Yazdırma Sistemi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="my-4">
+            <h1 class="text-center">Etiket Yazdırma Sistemi</h1>
+        </header>
+
+        <div class="row">
+            <!-- Sol Panel: Excel ve Barkod Okuyucu -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0"><i class="fas fa-file-excel me-2"></i>Excel Veri Kaynağı</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="excelFile" class="form-label">Excel Dosyası Seçin</label>
+                            <input type="file" class="form-control" id="excelFile" accept=".xlsx, .xls">
+                        </div>
+                        <button id="loadExcel" class="btn btn-success"><i class="fas fa-upload me-2"></i>Yükle</button>
+                        <div class="mt-3">
+                            <div class="alert alert-info" id="excelInfo" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0"><i class="fas fa-barcode me-2"></i>Barkod Okuyucu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="barcodeInput" class="form-label">Barkodu Girin veya Okutun</label>
+                            <input type="text" class="form-control" id="barcodeInput" placeholder="Barkodu buraya girin veya okutun">
+                            <small class="text-muted">Barkodu manüel girebilir veya scanner kullanabilirsiniz</small>
+                        </div>
+                        <button id="scanBarcode" class="btn btn-primary"><i class="fas fa-camera me-2"></i>Kamera ile Tara</button>
+                        <button id="searchBarcode" class="btn btn-success ms-2"><i class="fas fa-search me-2"></i>Ara</button>
+                        
+                        <div id="scanner-container" class="mt-3" style="display: none;">
+                            <video id="scanner-video" style="width: 100%; max-height: 300px;"></video>
+                            <button id="stopScanner" class="btn btn-danger mt-2"><i class="fas fa-stop me-2"></i>Durdur</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0"><i class="fas fa-table me-2"></i>Veri Tablosu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Barkod</th>
+                                        <th>Ürün</th>
+                                        <th>Renk</th>
+                                        <th>Beden</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dataTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Veri yok</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Panel: Etiket Önizleme ve Yazdırma -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0"><i class="fas fa-tag me-2"></i>Etiket Önizleme</h5>
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div id="label-preview" class="label-container">
+                            <!-- Etiket içeriği burada gösterilecek -->
+                            <div class="empty-label-message">
+                                <i class="fas fa-tag fa-3x mb-2"></i>
+                                <p>Etiket önizlemesi için barkod okutun veya tablodaki bir ürünü seçin</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 w-100">
+                            <button id="printLabel" class="btn btn-success w-100" disabled>
+                                <i class="fas fa-print me-2"></i>Etiketi Yazdır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0"><i class="fas fa-cog me-2"></i>Yazdırma Ayarları</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="labelWidth" class="form-label">Etiket Genişliği (mm)</label>
+                            <input type="number" class="form-control" id="labelWidth" value="40">
+                        </div>
+                        <div class="mb-3">
+                            <label for="labelHeight" class="form-label">Etiket Yüksekliği (mm)</label>
+                            <input type="number" class="form-control" id="labelHeight" value="40">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fontSize" class="form-label">Yazı Boyutu</label>
+                            <select class="form-select" id="fontSize">
+                                <option value="small">Küçük</option>
+                                <option value="medium" selected>Orta</option>
+                                <option value="large">Büyük</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <script src="https://unpkg.com/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    
+    <!-- Uygulama JavaScript Dosyaları -->
+    <script src="js/excel.js"></script>
+    <script src="js/barcode.js"></script>
+    <script src="js/print.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

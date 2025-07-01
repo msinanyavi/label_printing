@@ -1,0 +1,244 @@
+/* Ana Stiller */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+/* Etiket Önizleme Stili - Küçültülmüş boyut */
+.label-container {
+    width: 40mm;
+    height: 40mm;
+    border: 1px solid #000;
+    margin: 0 auto;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+    transform: scale(1.5);
+    transform-origin: top center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.empty-label-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #6c757d;
+    text-align: center;
+    padding: 5px;
+}
+
+.empty-label-message p {
+    font-size: 6px;
+    margin-top: 2px;
+}
+
+/* Etiket İçeriği Stilleri - Tam olarak örnekteki gibi düzenlendi */
+.label-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Ürün Kodu - Sol üst */
+.label-product-code {
+    position: absolute;
+    top: 2mm;
+    left: 2mm;
+    font-size: 3.5pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Marka - 2. satır */
+.label-brand {
+    position: absolute;
+    top: 5mm;
+    left: 2mm;
+    font-size: 3.5pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Ürün Kodu 2 - 3. satır */
+.label-product-code2 {
+    position: absolute;
+    top: 8mm;
+    left: 2mm;
+    font-size: 3.5pt;
+    line-height: 0.9;
+}
+
+/* Renk - 4. satır */
+.label-color {
+    position: absolute;
+    top: 11mm;
+    left: 2mm;
+    font-size: 3.5pt;
+    line-height: 0.9;
+}
+
+/* Beden - Büyük numara sol alt */
+.label-size {
+    position: absolute;
+    top: 14mm;
+    left: 2mm;
+    font-size: 7pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Kategori - Sağ üst köşe */
+.label-category {
+    position: absolute;
+    top: 2mm;
+    right: 2mm;
+    font-size: 3.5pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Üretim Yeri - Barkodun üstünde */
+.label-production {
+    position: absolute;
+    top: 19mm;
+    right: 8mm;
+    font-size: 3pt;
+    line-height: 0.9;
+}
+
+/* Barkod Container */
+.label-barcode-container {
+    position: absolute;
+    bottom: 12mm;
+    left: 2mm;
+    width: 36mm;
+    height: 5mm;
+    display: flex;
+    align-items: center;
+}
+
+/* Barkod Prefix - İlk karakter */
+.label-barcode-prefix {
+    position: absolute;
+    bottom: 3mm;
+    left: 0;
+    font-size: 4pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Barkod SVG */
+.label-barcode-container svg {
+    max-width: 32mm;
+    height: 5mm;
+    margin-left: 3mm;
+}
+
+/* Barkod Metni - Geri kalan karakterler */
+.label-barcode-text {
+    position: absolute;
+    bottom: 7mm;
+    left: 6mm;
+    width: 32mm;
+    text-align: center;
+    font-size: 3pt;
+    font-weight: bold;
+    line-height: 0.9;
+}
+
+/* Fiyat Container */
+.label-price-container {
+    position: absolute;
+    bottom: 4mm;
+    left: 2mm;
+    width: 36mm;
+    display: flex;
+}
+
+/* Para Birimi (TL) */
+.label-price-currency {
+    font-size: 4pt;
+    font-weight: bold;
+    width: 5mm;
+    line-height: 0.9;
+}
+
+/* Fiyat Tutarı */
+.label-price-amount {
+    font-size: 4pt;
+    font-weight: bold;
+    margin-left: 7mm;
+    line-height: 0.9;
+}
+
+/* Tarih */
+.label-date {
+    position: absolute;
+    bottom: 4mm;
+    right: 2mm;
+    font-size: 3pt;
+    line-height: 0.9;
+}
+
+/* KDV notu */
+.label-note {
+    position: absolute;
+    bottom: 2mm;
+    left: 7mm;
+    font-size: 2.5pt;
+    line-height: 0.9;
+}
+
+/* Font size kontrolü - özel boyutlar */
+.font-size-small .label-brand {
+    font-size: 3pt;
+}
+.font-size-large .label-brand {
+    font-size: 4pt;
+}
+
+.font-size-small .label-product-code,
+.font-size-small .label-product-code2,
+.font-size-small .label-color {
+    font-size: 2.5pt;
+}
+.font-size-large .label-product-code,
+.font-size-large .label-product-code2,
+.font-size-large .label-color {
+    font-size: 3.5pt;
+}
+
+.font-size-small .label-size {
+    font-size: 6pt;
+}
+.font-size-large .label-size {
+    font-size: 8pt;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .label-container {
+        transform: scale(1.5);
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+}
+
+/* Table styles */
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Scanner and camera styles */
+#scanner-video {
+    border: 1px solid #ddd;
+}
